@@ -1,3 +1,5 @@
+package marcosoft.chatcounter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,12 +15,9 @@ public class App {
 
     public static void main(String[] args) {
 
-        final String color1 = "#966b9d";
-        final String color2 = "#c98686";
-        final String color3 = "#f2b880";
-        final String color4 = "#fff4ec";
+        final SystemStrings ss = new SystemStrings();
 
-        JFrame window = new JFrame("Marcosoft - Chat Counter");
+        JFrame window = new JFrame(ss.PRODUCT_TILE);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(700, 120);
         window.setResizable(false);
@@ -32,41 +31,47 @@ public class App {
 
         JPanel panelTotal = new JPanel(new GridLayout(1,10,0,0));
 
+        Font bigFont = new Font("Arial", Font.BOLD,18);
+
         JLabel simpleLbl = new JLabel("Simple Question:");
-        simpleLbl.setBackground(Color.decode(color1));
+        simpleLbl.setBackground(Color.decode(ss.COLOR1));
         simpleLbl.setOpaque(true);
         JLabel bossLbl = new JLabel("Boss:");
-        bossLbl.setBackground(Color.decode(color2));
+        bossLbl.setBackground(Color.decode(ss.COLOR2));
         bossLbl.setOpaque(true);
         JLabel difficultLbl = new JLabel("Difficult Things:");
-        difficultLbl.setBackground(Color.decode(color3));
+        difficultLbl.setBackground(Color.decode(ss.COLOR3));
         difficultLbl.setOpaque(true);
         JLabel notLbl = new JLabel("Not For Me:");
-        notLbl.setBackground(Color.decode(color4));
+        notLbl.setBackground(Color.decode(ss.COLOR4));
         notLbl.setOpaque(true);
         JLabel totalLbl = new JLabel("Total:");
 
         JLabel simpleValue = new JLabel("0");
-        simpleValue.setBackground(Color.decode(color1));
+        simpleValue.setBackground(Color.decode(ss.COLOR1));
         simpleValue.setOpaque(true);
         JLabel bossValue = new JLabel("0");
-        bossValue.setBackground(Color.decode(color2));
+        bossValue.setBackground(Color.decode(ss.COLOR2));
         bossValue.setOpaque(true);
         JLabel difficultValue = new JLabel("0");
-        difficultValue.setBackground(Color.decode(color3));
+        difficultValue.setBackground(Color.decode(ss.COLOR3));
         difficultValue.setOpaque(true);
         JLabel notValue = new JLabel("0");
-        notValue.setBackground(Color.decode(color4));
+        notValue.setBackground(Color.decode(ss.COLOR4));
         notValue.setOpaque(true);
         JLabel totalValue = new JLabel("0");
         totalValue.setForeground(Color.RED);
         JLabel currentDate = new JLabel(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        currentDate.setFont(bigFont);
+        totalValue.setFont(bigFont);
+        totalLbl.setFont(bigFont);
 
         JButton simpleBtn = new JButton("+");
         JButton bossBtn = new JButton("+");
         JButton difficultBtn = new JButton("+");
         JButton notBtn = new JButton("+");
         JButton saveBtn = new JButton("Save");
+        JButton reportBtn = new JButton("Report");
 
         panelItems.add(simpleLbl,gbc);
         panelItems.add(simpleValue,gbc);
@@ -88,7 +93,7 @@ public class App {
 
         panelTotal.add(currentDate);
 
-        for(int c = 0;c<6;c++){
+        for(int c = 0;c<2;c++){
             panelTotal.add(new JLabel());
         }
 
@@ -97,6 +102,7 @@ public class App {
         panelTotal.add(totalLbl);
         panelTotal.add(totalValue);
         panelTotal.add(saveBtn);
+        panelTotal.add(reportBtn);
 
         window.add(panelTotal);
         window.add(panelItems);
@@ -151,6 +157,14 @@ public class App {
                     ex.printStackTrace();
                 }
 
+            }
+        });
+
+        reportBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CounterReport cr = new CounterReport();
+                cr.showWindow();
             }
         });
 
