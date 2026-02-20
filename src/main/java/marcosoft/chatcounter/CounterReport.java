@@ -1,6 +1,7 @@
 package marcosoft.chatcounter;
 
 import marcosoft.chatcounter.model.DayChatCounter;
+import marcosoft.chatcounter.model.ChatCounterReport;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,11 +44,43 @@ public class CounterReport {
         return null;
     }
 
-    //generateReport(){
 
-    //}/
+
+    private ChatCounterReport generateReport(){
+        List<DayChatCounter> dayChatCounterList = getDayChatCounter();
+
+        //getting total by type
+        int totalSimple = 0;
+        int totalBoss = 0;
+        int totalDifficult = 0;
+        int totalNot = 0;
+        int totalChats = 0;
+        assert dayChatCounterList != null;
+        for(DayChatCounter day : dayChatCounterList){
+            totalSimple = totalSimple + day.getSimpleChat();
+            totalBoss = totalBoss + day.getBoss();
+            totalDifficult = totalDifficult + day.getDifficultChat();
+            totalNot = totalNot + day.getNotForMe();
+            totalChats = totalChats + day.getSimpleChat() + day.getBoss() + day.getDifficultChat() + day.getNotForMe();
+        }
+
+        ChatCounterReport report = new ChatCounterReport();
+
+        int daysAmount = dayChatCounterList.size();
+
+        report.setAverage(Math.round((float) totalChats / daysAmount));
+        report.setSimplePercent(Math.round((float) totalSimple / daysAmount));
+        report.setBossPercent(Math.round((float) totalBoss / daysAmount));
+        report.setDifficultPercent(Math.round((float) totalDifficult / daysAmount));
+        report.setNotPercent(Math.round((float) totalNot / daysAmount));
+
+        return report;
+
+    }
 
     public void showWindow(){
+
+        ChatCounterReport report = generateReport();
 
         Font headerFont = new Font("Arial", Font.BOLD,25);
         Font mainFont = new Font("Arial", Font.BOLD,18);
@@ -70,8 +103,8 @@ public class CounterReport {
 
         JLabel averageLbl = customLabel("Average Chats Per Day");
         JLabel percentDifficultLbl = customLabel("% of Difficult Chats");
-        JLabel averageValue = customLabel("36");
-        JLabel percentDifficultValue = customLabel("%11");
+        JLabel averageValue = customLabel(report.getAverage());
+        JLabel percentDifficultValue = customLabel(report.getDifficultPercent());
         averageLbl.setFont(mainFont);
         percentDifficultLbl.setFont(mainFont);
         averageValue.setFont(mainFont);
@@ -86,9 +119,9 @@ public class CounterReport {
         JLabel bossLbl = customLabel("% of Boss Chats");
         JLabel notLbl = customLabel("% of Not For Me Chats");
 
-        JLabel simpleValue = customLabel("%40");
-        JLabel bossValue = customLabel("%11");
-        JLabel notValue = customLabel("%38");
+        JLabel simpleValue = customLabel(report.getSimplePercent());
+        JLabel bossValue = customLabel(report.getBossPercent());
+        JLabel notValue = customLabel(report.getNotPercent());
 
         simpleLbl.setFont(contentFont);
         bossLbl.setFont(contentFont);
