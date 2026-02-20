@@ -144,7 +144,7 @@ public class App {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Path filePath = Path.of("C:\\Marcosoft\\chat-counter\\Chat-Counter.txt");
+                Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
 
                 String newContent = "\n"
                         + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ";"
