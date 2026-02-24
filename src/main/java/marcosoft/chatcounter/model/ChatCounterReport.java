@@ -6,16 +6,20 @@ public class ChatCounterReport {
     int simplePercent;
     int bossPercent;
     int notPercent;
+    int totalDays;
+    int totalChats;
 
     public ChatCounterReport() {
     }
 
-    public ChatCounterReport(int average, int difficultPercent, int simplePercent, int bossPercent, int notPercent) {
+    public ChatCounterReport(int average, int difficultPercent, int simplePercent, int bossPercent, int notPercent, int totalDays, int totalChats) {
         this.average = average;
         this.difficultPercent = difficultPercent;
         this.simplePercent = simplePercent;
         this.bossPercent = bossPercent;
         this.notPercent = notPercent;
+        this.totalDays = totalDays;
+        this.totalChats = totalChats;
     }
 
     public String getAverage() {
@@ -56,5 +60,21 @@ public class ChatCounterReport {
 
     public void setNotPercent(int notPercent) {
         this.notPercent = notPercent;
+    }
+
+    public int getTotalDays() {
+        return totalDays;
+    }
+
+    public void setTotalDays(int totalDays) {
+        this.totalDays = totalDays;
+    }
+
+    public int getTotalChats() {
+        return totalChats;
+    }
+
+    public void setTotalChats(int totalChats) {
+        this.totalChats = totalChats;
     }
 }

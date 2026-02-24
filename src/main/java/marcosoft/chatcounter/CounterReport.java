@@ -66,13 +66,13 @@ public class CounterReport {
 
         ChatCounterReport report = new ChatCounterReport();
 
-        int daysAmount = dayChatCounterList.size();
-
-        report.setAverage(Math.round((float) totalChats / daysAmount));
-        report.setSimplePercent(Math.round((float) totalSimple / daysAmount));
-        report.setBossPercent(Math.round((float) totalBoss / daysAmount));
-        report.setDifficultPercent(Math.round((float) totalDifficult / daysAmount));
-        report.setNotPercent(Math.round((float) totalNot / daysAmount));
+        report.setTotalDays(dayChatCounterList.size());
+        report.setTotalChats(totalChats);
+        report.setAverage(Math.round((float) totalChats / report.getTotalDays()));
+        report.setSimplePercent(Math.round((float) totalSimple / report.getTotalDays()));
+        report.setBossPercent(Math.round((float) totalBoss / report.getTotalDays()));
+        report.setDifficultPercent(Math.round((float) totalDifficult / report.getTotalDays()));
+        report.setNotPercent(Math.round((float) totalNot / report.getTotalDays()));
 
         return report;
 
@@ -112,16 +112,20 @@ public class CounterReport {
         percentDifficultValue.setFont(mainFont);
         percentDifficultValue.setForeground(Color.RED);
 
-        JPanel content = new JPanel(new GridLayout(3,2,0,0));
+        JPanel content = new JPanel(new GridLayout(5,2,0,0));
         content.setBackground(Color.decode(ss.COLOR4));
 
         JLabel simpleLbl = customLabel("% of Simple Chats");
         JLabel bossLbl = customLabel("% of Boss Chats");
         JLabel notLbl = customLabel("% of Not For Me Chats");
+        JLabel totalDaysLbl = customLabel("Total Days");
+        JLabel totalChatsLbl = customLabel("Total Chats");
 
         JLabel simpleValue = customLabel(report.getSimplePercent());
         JLabel bossValue = customLabel(report.getBossPercent());
         JLabel notValue = customLabel(report.getNotPercent());
+        JLabel totalDaysValue = customLabel(String.valueOf(report.getTotalDays()));
+        JLabel totalChatsValue = customLabel(String.valueOf(report.getTotalChats()));
 
         simpleLbl.setFont(contentFont);
         bossLbl.setFont(contentFont);
@@ -136,6 +140,10 @@ public class CounterReport {
         main.add(averageValue);
         main.add(percentDifficultValue);
 
+        content.add(totalDaysLbl);
+        content.add(totalDaysValue);
+        content.add(totalChatsLbl);
+        content.add(totalChatsValue);
         content.add(simpleLbl);
         content.add(simpleValue);
         content.add(bossLbl);
