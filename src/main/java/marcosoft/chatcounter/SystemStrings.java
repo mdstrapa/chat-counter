@@ -7,4 +7,6 @@ public final class SystemStrings {
     final String COLOR3 = "#f2b880";
     final String COLOR4 = "#fff4ec";
     final String DATABASE_TEXT_FILE = "C:\\Marcosoft\\chat-counter\\Chat-Counter.txt";
+    final String NO_CHAGES = "No changes";
+    final String UNSAVED_CHANGES = "Unsaved changes";
 }

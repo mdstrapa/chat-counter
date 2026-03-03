@@ -10,18 +10,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 public class App {
 
+    final static SystemStrings ss = new SystemStrings();
+
     public static void main(String[] args) {
 
-        final SystemStrings ss = new SystemStrings();
+        final SystemComponents sc = new SystemComponents();
 
         JFrame window = new JFrame(ss.PRODUCT_TILE);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(700, 120);
+        window.setSize(700, 150);
         window.setResizable(false);
-        window.setLayout(new GridLayout(2, 1, 0, 0));
+        window.setLayout(new GridLayout(3, 1, 0, 0));
 
         JPanel panelItems = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -39,10 +43,10 @@ public class App {
         JLabel bossLbl = new JLabel("Boss:");
         bossLbl.setBackground(Color.decode(ss.COLOR2));
         bossLbl.setOpaque(true);
-        JLabel difficultLbl = new JLabel("Difficult Things:");
+        JLabel difficultLbl = new JLabel("Difficult Question:");
         difficultLbl.setBackground(Color.decode(ss.COLOR3));
         difficultLbl.setOpaque(true);
-        JLabel notLbl = new JLabel("Not For Me:");
+        JLabel notLbl = new JLabel("No Action:");
         notLbl.setBackground(Color.decode(ss.COLOR4));
         notLbl.setOpaque(true);
         JLabel totalLbl = new JLabel("Total:");
@@ -72,6 +76,13 @@ public class App {
         JButton notBtn = new JButton("+");
         JButton saveBtn = new JButton("Save");
         JButton reportBtn = new JButton("Report");
+
+        JPanel panelSave = new JPanel(new GridLayout(1,2,0,0));
+        JLabel lastSavedLbl = sc.customLabel("Last saved: - ");
+        JLabel hasChangesLbl = sc.customLabel(ss.NO_CHAGES);
+
+        panelSave.add(lastSavedLbl);
+        panelSave.add(hasChangesLbl);
 
         panelItems.add(simpleLbl,gbc);
         panelItems.add(simpleValue,gbc);
@@ -105,12 +116,13 @@ public class App {
         panelTotal.add(reportBtn);
 
         window.add(panelTotal);
+        window.add(panelSave);
         window.add(panelItems);
-
 
         simpleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                markChange(hasChangesLbl);
                 increaseValue(simpleValue);
                 increaseValue(totalValue);
             }
@@ -119,6 +131,7 @@ public class App {
         bossBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                markChange(hasChangesLbl);
                 increaseValue(bossValue);
                 increaseValue(totalValue);
             }
@@ -127,6 +140,7 @@ public class App {
         difficultBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                markChange(hasChangesLbl);
                 increaseValue(difficultValue);
                 increaseValue(totalValue);
             }
@@ -135,6 +149,7 @@ public class App {
         notBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                markChange(hasChangesLbl);
                 increaseValue(notValue);
                 increaseValue(totalValue);
             }
@@ -146,13 +161,30 @@ public class App {
 
                 Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
 
+                String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
                 String newContent = "\n"
-                        + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ";"
+                        + currentDay + ";"
                         + simpleValue.getText() + ";" + bossValue.getText() + ";" + difficultValue.getText() + ";" + notValue.getText();
 
                 try{
+
+                    // getting the last line to check if we already save this day
+                    List<String> dayList = Files.readAllLines(filePath);
+                    String[] lastDay = dayList.get(dayList.size() - 1).split(";");
+
+                    if(Objects.equals(lastDay[0], currentDay)){
+                        // if so, we have to first delete the line before saving a new and updated version
+                        System.out.println("current day");
+
+                    }
+
+
                     Files.write(filePath,newContent.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.APPEND);
                     JOptionPane.showMessageDialog(null,"Data recorded to file " + filePath.getFileName(),"Information",JOptionPane.INFORMATION_MESSAGE);
+                    hasChangesLbl.setText(ss.NO_CHAGES);
+                    hasChangesLbl.setForeground(Color.BLACK);
+                    lastSavedLbl.setText("Last saved: " + LocalDate.now().format(DateTimeFormatter.ofPattern("HH:ss")));
                 }catch (IOException ex){
                     ex.printStackTrace();
                 }
@@ -175,6 +207,11 @@ public class App {
         int value = Integer.parseInt(labelValue.getText());
         value++;
         labelValue.setText(Integer.toString(value));
+    }
+
+    private static void markChange(JLabel hasChangesLbl){
+        hasChangesLbl.setText(ss.UNSAVED_CHANGES);
+        hasChangesLbl.setForeground(Color.RED);
     }
 
 }
