@@ -116,8 +116,8 @@ public class App {
         panelTotal.add(reportBtn);
 
         window.add(panelTotal);
-        window.add(panelSave);
         window.add(panelItems);
+        window.add(panelSave);
 
         simpleBtn.addActionListener(new ActionListener() {
             @Override
