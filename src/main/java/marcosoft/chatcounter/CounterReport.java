@@ -69,10 +69,10 @@ public class CounterReport {
         report.setTotalDays(dayChatCounterList.size());
         report.setTotalChats(totalChats);
         report.setAverage(Math.round((float) totalChats / report.getTotalDays()));
-        report.setSimplePercent(Math.round((float) totalSimple / report.getTotalDays()));
-        report.setBossPercent(Math.round((float) totalBoss / report.getTotalDays()));
-        report.setDifficultPercent(Math.round((float) totalDifficult / report.getTotalDays()));
-        report.setNotPercent(Math.round((float) totalNot / report.getTotalDays()));
+        report.setSimplePercent(Math.round(((float) totalSimple / report.getTotalChats()) * 100));
+        report.setBossPercent(Math.round(((float) totalBoss / report.getTotalChats()) * 100));
+        report.setDifficultPercent(Math.round(((float) totalDifficult / report.getTotalChats()) * 100));
+        report.setNotPercent(Math.round(((float) totalNot / report.getTotalChats()) * 100));
 
         return report;
 
