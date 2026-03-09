@@ -15,10 +15,7 @@ import java.io.IOException;
 public class CounterReport {
 
     final SystemStrings ss = new SystemStrings();
-
-    private JLabel customLabel(String value){
-        return new JLabel(value,SwingConstants.CENTER);
-    }
+    final SystemComponents sc = new SystemComponents();
 
     private List<DayChatCounter> getDayChatCounter(){
         List<DayChatCounter> dayChatCounterList = new ArrayList<>();
@@ -28,6 +25,16 @@ public class CounterReport {
 
             for(String line : lines){
                 String[] lineContent = line.split(";");
+
+                // before adding the new day to the day list
+                // we have to check if it already exists
+                // if so, we first have to remove it
+                // and them adding the new version
+
+                if(!dayChatCounterList.isEmpty() && dayChatCounterList.get(dayChatCounterList.size() - 1).getDay().equals(LocalDate.parse(lineContent[0]))){
+                    dayChatCounterList.remove(dayChatCounterList.size() - 1);
+                }
+
                 dayChatCounterList.add(new DayChatCounter(LocalDate.parse(lineContent[0]),
                         Integer.parseInt(lineContent[1]),
                         Integer.parseInt(lineContent[2]),
@@ -94,17 +101,17 @@ public class CounterReport {
 
         JPanel header = new JPanel(new GridLayout(1,1,0,0));
         header.setBackground(Color.decode(ss.COLOR2));
-        JLabel headerLbl = customLabel("Chats Counter Report");
+        JLabel headerLbl = sc.customLabel("Chats Counter Report");
         headerLbl.setFont(headerFont);;
         header.add(headerLbl);
 
         JPanel main = new JPanel(new GridLayout(2,2,0,0));
         main.setBackground(Color.decode(ss.COLOR3));
 
-        JLabel averageLbl = customLabel("Average Chats Per Day");
-        JLabel percentDifficultLbl = customLabel("% of Difficult Chats");
-        JLabel averageValue = customLabel(report.getAverage());
-        JLabel percentDifficultValue = customLabel(report.getDifficultPercent());
+        JLabel averageLbl = sc.customLabel("Average Chats Per Day");
+        JLabel percentDifficultLbl = sc.customLabel("% of Difficult Questions");
+        JLabel averageValue = sc.customLabel(report.getAverage());
+        JLabel percentDifficultValue = sc.customLabel(report.getDifficultPercent());
         averageLbl.setFont(mainFont);
         percentDifficultLbl.setFont(mainFont);
         averageValue.setFont(mainFont);
@@ -115,17 +122,17 @@ public class CounterReport {
         JPanel content = new JPanel(new GridLayout(5,2,0,0));
         content.setBackground(Color.decode(ss.COLOR4));
 
-        JLabel simpleLbl = customLabel("% of Simple Chats");
-        JLabel bossLbl = customLabel("% of Boss Chats");
-        JLabel notLbl = customLabel("% of Not For Me Chats");
-        JLabel totalDaysLbl = customLabel("Total Days");
-        JLabel totalChatsLbl = customLabel("Total Chats");
+        JLabel simpleLbl = sc.customLabel("% of Simple Chats");
+        JLabel bossLbl = sc.customLabel("% of Boss Chats");
+        JLabel notLbl = sc.customLabel("% of No Action");
+        JLabel totalDaysLbl = sc.customLabel("Total Days");
+        JLabel totalChatsLbl = sc.customLabel("Total Chats");
 
-        JLabel simpleValue = customLabel(report.getSimplePercent());
-        JLabel bossValue = customLabel(report.getBossPercent());
-        JLabel notValue = customLabel(report.getNotPercent());
-        JLabel totalDaysValue = customLabel(String.valueOf(report.getTotalDays()));
-        JLabel totalChatsValue = customLabel(String.valueOf(report.getTotalChats()));
+        JLabel simpleValue = sc.customLabel(report.getSimplePercent());
+        JLabel bossValue = sc.customLabel(report.getBossPercent());
+        JLabel notValue = sc.customLabel(report.getNotPercent());
+        JLabel totalDaysValue = sc.customLabel(String.valueOf(report.getTotalDays()));
+        JLabel totalChatsValue = sc.customLabel(String.valueOf(report.getTotalChats()));
 
         simpleLbl.setFont(contentFont);
         bossLbl.setFont(contentFont);
