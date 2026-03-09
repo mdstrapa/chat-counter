@@ -25,6 +25,16 @@ public class CounterReport {
 
             for(String line : lines){
                 String[] lineContent = line.split(";");
+
+                // before adding the new day to the day list
+                // we have to check if it already exists
+                // if so, we first have to remove it
+                // and them adding the new version
+
+                if(!dayChatCounterList.isEmpty() && dayChatCounterList.get(dayChatCounterList.size() - 1).getDay().equals(LocalDate.parse(lineContent[0]))){
+                    dayChatCounterList.remove(dayChatCounterList.size() - 1);
+                }
+
                 dayChatCounterList.add(new DayChatCounter(LocalDate.parse(lineContent[0]),
                         Integer.parseInt(lineContent[1]),
                         Integer.parseInt(lineContent[2]),

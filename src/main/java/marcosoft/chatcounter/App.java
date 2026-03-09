@@ -5,13 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 public class App {
 
@@ -169,22 +169,11 @@ public class App {
 
                 try{
 
-                    // getting the last line to check if we already save this day
-                    List<String> dayList = Files.readAllLines(filePath);
-                    String[] lastDay = dayList.get(dayList.size() - 1).split(";");
-
-                    if(Objects.equals(lastDay[0], currentDay)){
-                        // if so, we have to first delete the line before saving a new and updated version
-                        System.out.println("current day");
-
-                    }
-
-
                     Files.write(filePath,newContent.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.APPEND);
                     JOptionPane.showMessageDialog(null,"Data recorded to file " + filePath.getFileName(),"Information",JOptionPane.INFORMATION_MESSAGE);
                     hasChangesLbl.setText(ss.NO_CHAGES);
                     hasChangesLbl.setForeground(Color.BLACK);
-                    lastSavedLbl.setText("Last saved: " + LocalDate.now().format(DateTimeFormatter.ofPattern("HH:ss")));
+                    lastSavedLbl.setText("Last saved: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
                 }catch (IOException ex){
                     ex.printStackTrace();
                 }
