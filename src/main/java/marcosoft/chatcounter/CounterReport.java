@@ -2,59 +2,23 @@ package marcosoft.chatcounter;
 
 import marcosoft.chatcounter.model.DayChatCounter;
 import marcosoft.chatcounter.model.ChatCounterReport;
+import marcosoft.chatcounter.repository.DayChatCounterRepository;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
 
 public class CounterReport {
 
     final SystemStrings ss = new SystemStrings();
     final SystemComponents sc = new SystemComponents();
 
-    private List<DayChatCounter> getDayChatCounter(){
-        List<DayChatCounter> dayChatCounterList = new ArrayList<>();
-        Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
-        try{
-            List<String> lines = Files.readAllLines(filePath);
-
-            for(String line : lines){
-                String[] lineContent = line.split(";");
-
-                // before adding the new day to the day list
-                // we have to check if it already exists
-                // if so, we first have to remove it
-                // and them adding the new version
-
-                if(!dayChatCounterList.isEmpty() && dayChatCounterList.get(dayChatCounterList.size() - 1).getDay().equals(LocalDate.parse(lineContent[0]))){
-                    dayChatCounterList.remove(dayChatCounterList.size() - 1);
-                }
-
-                dayChatCounterList.add(new DayChatCounter(LocalDate.parse(lineContent[0]),
-                        Integer.parseInt(lineContent[1]),
-                        Integer.parseInt(lineContent[2]),
-                        Integer.parseInt(lineContent[3]),
-                        Integer.parseInt(lineContent[4])));
-            }
-
-            return dayChatCounterList;
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
+    DayChatCounterRepository dayChatCounterRepository = new DayChatCounterRepository();
 
     private ChatCounterReport generateReport(){
-        List<DayChatCounter> dayChatCounterList = getDayChatCounter();
+        List<DayChatCounter> dayChatCounterList = dayChatCounterRepository.getDayChatCounterList();
 
         //getting total by type
         int totalSimple = 0;
@@ -89,20 +53,16 @@ public class CounterReport {
 
         ChatCounterReport report = generateReport();
 
-        Font headerFont = new Font("Arial", Font.BOLD,25);
-        Font mainFont = new Font("Arial", Font.BOLD,18);
-        Font contentFont = new Font("Arial", Font.BOLD,12);
-
-        JFrame window = new JFrame(ss.PRODUCT_TILE);
+        JFrame window = new JFrame(ss.PRODUCT_TILE + " - Report");
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        window.setSize(450, 400);
+        window.setSize(450, 500);
         window.setResizable(false);
-        window.setLayout(new GridLayout(3, 1, 0, 0));
+        window.setLayout(new GridLayout(4, 1, 0, 0));
 
         JPanel header = new JPanel(new GridLayout(1,1,0,0));
         header.setBackground(Color.decode(ss.COLOR2));
         JLabel headerLbl = sc.customLabel("Chats Counter Report");
-        headerLbl.setFont(headerFont);;
+        headerLbl.setFont(sc.headerFont());;
         header.add(headerLbl);
 
         JPanel main = new JPanel(new GridLayout(2,2,0,0));
@@ -112,11 +72,11 @@ public class CounterReport {
         JLabel percentDifficultLbl = sc.customLabel("% of Difficult Questions");
         JLabel averageValue = sc.customLabel(report.getAverage());
         JLabel percentDifficultValue = sc.customLabel(report.getDifficultPercent());
-        averageLbl.setFont(mainFont);
-        percentDifficultLbl.setFont(mainFont);
-        averageValue.setFont(mainFont);
+        averageLbl.setFont(sc.mainFont());
+        percentDifficultLbl.setFont(sc.mainFont());
+        averageValue.setFont(sc.mainFont());
         averageValue.setForeground(Color.RED);
-        percentDifficultValue.setFont(mainFont);
+        percentDifficultValue.setFont(sc.mainFont());
         percentDifficultValue.setForeground(Color.RED);
 
         JPanel content = new JPanel(new GridLayout(5,2,0,0));
@@ -134,12 +94,12 @@ public class CounterReport {
         JLabel totalDaysValue = sc.customLabel(String.valueOf(report.getTotalDays()));
         JLabel totalChatsValue = sc.customLabel(String.valueOf(report.getTotalChats()));
 
-        simpleLbl.setFont(contentFont);
-        bossLbl.setFont(contentFont);
-        notLbl.setFont(contentFont);
-        simpleValue.setFont(contentFont);
-        bossValue.setFont(contentFont);
-        notValue.setFont(contentFont);
+        simpleLbl.setFont(sc.contentFont());
+        bossLbl.setFont(sc.contentFont());
+        notLbl.setFont(sc.contentFont());
+        simpleValue.setFont(sc.contentFont());
+        bossValue.setFont(sc.contentFont());
+        notValue.setFont(sc.contentFont());
 
 
         main.add(averageLbl);
@@ -163,7 +123,24 @@ public class CounterReport {
         window.add(main);
         window.add(content);
 
+        JPanel footer = new JPanel(new GridLayout(1,1,0,0));
+
+        JButton showDataBtn = new JButton(ss.BTN_SHOW_REPORT_DATA);
+
+        footer.add(showDataBtn);
+
+        window.add(footer);
+
         window.setVisible(true);
+
+        showDataBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               ReportData rd = new ReportData();
+               rd.showWindow();
+            }
+        });
+
 
     }
 
