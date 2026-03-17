@@ -24,6 +24,12 @@ public class App {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(700, 150);
         window.setResizable(false);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - window.getWidth() - 10);
+        int y = (screenSize.height - window.getHeight() - 55);
+        window.setLocation(x, y);
+
         window.setLayout(new GridLayout(3, 1, 0, 0));
 
         JPanel panelItems = new JPanel(new GridBagLayout());

@@ -20,6 +20,7 @@ public class ReportData {
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         window.setSize(650, 500);
         window.setResizable(false);
+        window.setLocationRelativeTo(null);
         window.setLayout(new GridLayout(1, 1, 0, 0));
 
         JPanel content = new JPanel(new GridLayout(1,1,0,0));
