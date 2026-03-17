@@ -56,6 +56,7 @@ public class CounterReport {
         JFrame window = new JFrame(ss.PRODUCT_TILE + " - Report");
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         window.setSize(450, 500);
+        window.setLocationRelativeTo(null);
         window.setResizable(false);
         window.setLayout(new GridLayout(4, 1, 0, 0));
 
@@ -135,6 +136,7 @@ public class CounterReport {
         footerRow2.add(emptySpace2);
 
         JLabel databaseFile = sc.customLabel("Database file: " + ss.DATABASE_TEXT_FILE);
+        databaseFile.setForeground(Color.WHITE);
         footerRow3.add(databaseFile);
 
         footer.add(footerRow1);
