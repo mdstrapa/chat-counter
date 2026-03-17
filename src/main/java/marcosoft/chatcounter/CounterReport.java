@@ -61,7 +61,7 @@ public class CounterReport {
 
         JPanel header = new JPanel(new GridLayout(1,1,0,0));
         header.setBackground(Color.decode(ss.COLOR2));
-        JLabel headerLbl = sc.customLabel("Chats Counter Report");
+        JLabel headerLbl = sc.customLabel("Chats Report");
         headerLbl.setFont(sc.headerFont());;
         header.add(headerLbl);
 
@@ -94,14 +94,6 @@ public class CounterReport {
         JLabel totalDaysValue = sc.customLabel(String.valueOf(report.getTotalDays()));
         JLabel totalChatsValue = sc.customLabel(String.valueOf(report.getTotalChats()));
 
-        simpleLbl.setFont(sc.contentFont());
-        bossLbl.setFont(sc.contentFont());
-        notLbl.setFont(sc.contentFont());
-        simpleValue.setFont(sc.contentFont());
-        bossValue.setFont(sc.contentFont());
-        notValue.setFont(sc.contentFont());
-
-
         main.add(averageLbl);
         main.add(percentDifficultLbl);
         main.add(averageValue);
@@ -118,16 +110,36 @@ public class CounterReport {
         content.add(notLbl);
         content.add(notValue);
 
-
         window.add(header);
         window.add(main);
         window.add(content);
 
-        JPanel footer = new JPanel(new GridLayout(1,1,0,0));
+        JPanel footer = new JPanel(new GridLayout(3,1,0,0));
+
+
+        JPanel footerRow1 = new JPanel(new GridLayout(1,1,0,0));
+        JPanel footerRow2 = new JPanel(new GridLayout(1,3,0,0));
+        JPanel footerRow3 = new JPanel(new GridLayout(1,1,0,0));
+
+        footerRow1.setBackground(Color.decode(ss.COLOR1));
+        footerRow2.setBackground(Color.decode(ss.COLOR1));
+        footerRow3.setBackground(Color.decode(ss.COLOR1));
 
         JButton showDataBtn = new JButton(ss.BTN_SHOW_REPORT_DATA);
 
-        footer.add(showDataBtn);
+        JLabel emptySpace1 = new JLabel();
+        JLabel emptySpace2 = new JLabel();
+
+        footerRow2.add(emptySpace1);
+        footerRow2.add(showDataBtn);
+        footerRow2.add(emptySpace2);
+
+        JLabel databaseFile = sc.customLabel("Database file: " + ss.DATABASE_TEXT_FILE);
+        footerRow3.add(databaseFile);
+
+        footer.add(footerRow1);
+        footer.add(footerRow2);
+        footer.add(footerRow3);
 
         window.add(footer);
 
