@@ -1,7 +1,6 @@
 package marcosoft.chatcounter.model;
 
 import javax.swing.table.AbstractTableModel;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
