@@ -6,6 +6,7 @@ import marcosoft.chatcounter.repository.DayChatCounterRepository;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 
 public class ReportData {
@@ -35,7 +36,6 @@ public class ReportData {
         header.revalidate();
         header.repaint();
 
-
         data.setRowHeight(30);
         data.setFont(sc.contentFont());
         data.setGridColor(Color.LIGHT_GRAY);
@@ -45,7 +45,12 @@ public class ReportData {
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         data.setDefaultRenderer(Object.class, centerRenderer);
 
+        TableColumn totalColumn = data.getColumnModel().getColumn(5);
 
+        DefaultTableCellRenderer totalColumnRenderer = new DefaultTableCellRenderer();
+        totalColumnRenderer.setBackground(Color.decode(ss.COLOR2));
+        totalColumnRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        totalColumn.setCellRenderer(totalColumnRenderer);
 
         JScrollPane scrollPane = new JScrollPane(data);
 
