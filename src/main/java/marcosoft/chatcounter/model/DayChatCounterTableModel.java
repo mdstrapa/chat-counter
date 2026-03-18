@@ -1,7 +1,6 @@
 package marcosoft.chatcounter.model;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 public class DayChatCounterTableModel extends AbstractTableModel {
 
     private final String[] columns = {"Day", "Simple Chat", "Boss ", "Difficult Chat", "No Action", "Total"};
-    private final Class<?>[] columnTypes = {LocalDate.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class};
 
     private final List<DayChatCounter> dayChatCounterList;
 
