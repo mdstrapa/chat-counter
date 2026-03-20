@@ -12,13 +12,16 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
 
+
 public class App {
 
     final static SystemStrings ss = new SystemStrings();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         final SystemComponents sc = new SystemComponents();
+
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         JFrame window = new JFrame(ss.PRODUCT_TILE);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
