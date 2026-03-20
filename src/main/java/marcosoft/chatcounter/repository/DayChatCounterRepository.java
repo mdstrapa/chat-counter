@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DayChatCounterRepository {
 
-    SystemStrings ss = new SystemStrings();
+    final SystemStrings ss = new SystemStrings();
 
     public List<DayChatCounter> getDayChatCounterList(){
         List<DayChatCounter> dayChatCounterList = new ArrayList<>();

@@ -31,7 +31,7 @@ public class ChatCounterReport {
     }
 
     public String getDifficultPercent() {
-        return String.valueOf(difficultPercent) + "%";
+        return difficultPercent + "%";
     }
 
     public void setDifficultPercent(int difficultPercent) {
@@ -39,7 +39,7 @@ public class ChatCounterReport {
     }
 
     public String getSimplePercent() {
-        return String.valueOf(simplePercent) + "%";
+        return simplePercent + "%";
     }
 
     public void setSimplePercent(int simplePercent) {
@@ -47,7 +47,7 @@ public class ChatCounterReport {
     }
 
     public String getBossPercent() {
-        return String.valueOf(bossPercent) + "%";
+        return bossPercent + "%";
     }
 
     public void setBossPercent(int bossPercent) {
@@ -55,7 +55,7 @@ public class ChatCounterReport {
     }
 
     public String getNotPercent() {
-        return String.valueOf(notPercent) + "%";
+        return notPercent + "%";
     }
 
     public void setNotPercent(int notPercent) {

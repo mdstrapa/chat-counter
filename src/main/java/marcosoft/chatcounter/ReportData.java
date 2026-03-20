@@ -11,10 +11,10 @@ import java.awt.*;
 
 public class ReportData {
 
-    SystemStrings ss = new SystemStrings();
-    SystemComponents sc = new SystemComponents();
+    final SystemStrings ss = new SystemStrings();
+    final SystemComponents sc = new SystemComponents();
 
-    DayChatCounterRepository dayChatCounterRepository = new DayChatCounterRepository();
+    final DayChatCounterRepository dayChatCounterRepository = new DayChatCounterRepository();
 
     public void showWindow(){
         JFrame window = new JFrame(ss.PRODUCT_TILE + " - Report Data");

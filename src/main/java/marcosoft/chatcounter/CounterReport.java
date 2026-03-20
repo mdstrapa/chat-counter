@@ -15,7 +15,7 @@ public class CounterReport {
     final SystemStrings ss = new SystemStrings();
     final SystemComponents sc = new SystemComponents();
 
-    DayChatCounterRepository dayChatCounterRepository = new DayChatCounterRepository();
+    final DayChatCounterRepository dayChatCounterRepository = new DayChatCounterRepository();
 
     private ChatCounterReport generateReport(){
         List<DayChatCounter> dayChatCounterList = dayChatCounterRepository.getDayChatCounterList();
@@ -63,11 +63,11 @@ public class CounterReport {
         JPanel header = new JPanel(new GridLayout(1,1,0,0));
         header.setBackground(Color.decode(ss.COLOR2));
         JLabel headerLbl = sc.customLabel("Chats Report");
-        headerLbl.setFont(sc.headerFont());;
+        headerLbl.setFont(sc.headerFont());
         header.add(headerLbl);
 
         JPanel main = new JPanel(new GridLayout(2,2,0,0));
-        main.setBackground(Color.decode(ss.COLOR3));
+        main.setBackground(Color.decode(ss.COLOR1));
 
         JLabel averageLbl = sc.customLabel("Average Chats Per Day");
         JLabel percentDifficultLbl = sc.customLabel("% of Difficult Questions");
@@ -76,12 +76,12 @@ public class CounterReport {
         averageLbl.setFont(sc.mainFont());
         percentDifficultLbl.setFont(sc.mainFont());
         averageValue.setFont(sc.mainFont());
-        averageValue.setForeground(Color.RED);
+        averageValue.setForeground(Color.WHITE);
         percentDifficultValue.setFont(sc.mainFont());
-        percentDifficultValue.setForeground(Color.RED);
+        percentDifficultValue.setForeground(Color.WHITE);
 
         JPanel content = new JPanel(new GridLayout(5,2,0,0));
-        content.setBackground(Color.decode(ss.COLOR4));
+        content.setBackground(Color.decode(ss.COLOR2));
 
         JLabel simpleLbl = sc.customLabel("% of Simple Chats");
         JLabel bossLbl = sc.customLabel("% of Boss Chats");
@@ -136,7 +136,6 @@ public class CounterReport {
         footerRow2.add(emptySpace2);
 
         JLabel databaseFile = sc.customLabel("Database file: " + ss.DATABASE_TEXT_FILE);
-        databaseFile.setForeground(Color.WHITE);
         footerRow3.add(databaseFile);
 
         footer.add(footerRow1);
@@ -147,12 +146,9 @@ public class CounterReport {
 
         window.setVisible(true);
 
-        showDataBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               ReportData rd = new ReportData();
-               rd.showWindow();
-            }
+        showDataBtn.addActionListener(e -> {
+           ReportData rd = new ReportData();
+           rd.showWindow();
         });
 
 
