@@ -2,8 +2,6 @@ package marcosoft.chatcounter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,13 +10,16 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
 
+
 public class App {
 
     final static SystemStrings ss = new SystemStrings();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         final SystemComponents sc = new SystemComponents();
+
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         JFrame window = new JFrame(ss.PRODUCT_TILE);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,10 +50,10 @@ public class App {
         bossLbl.setBackground(Color.decode(ss.COLOR2));
         bossLbl.setOpaque(true);
         JLabel difficultLbl = new JLabel("Difficult Question:");
-        difficultLbl.setBackground(Color.decode(ss.COLOR3));
+        difficultLbl.setBackground(Color.decode(ss.COLOR1));
         difficultLbl.setOpaque(true);
         JLabel notLbl = new JLabel("No Action:");
-        notLbl.setBackground(Color.decode(ss.COLOR4));
+        notLbl.setBackground(Color.decode(ss.COLOR2));
         notLbl.setOpaque(true);
         JLabel totalLbl = new JLabel("Total:");
 
@@ -63,10 +64,10 @@ public class App {
         bossValue.setBackground(Color.decode(ss.COLOR2));
         bossValue.setOpaque(true);
         JLabel difficultValue = new JLabel("0");
-        difficultValue.setBackground(Color.decode(ss.COLOR3));
+        difficultValue.setBackground(Color.decode(ss.COLOR1));
         difficultValue.setOpaque(true);
         JLabel notValue = new JLabel("0");
-        notValue.setBackground(Color.decode(ss.COLOR4));
+        notValue.setBackground(Color.decode(ss.COLOR2));
         notValue.setOpaque(true);
         JLabel totalValue = new JLabel("0");
         totalValue.setForeground(Color.RED);
@@ -84,7 +85,7 @@ public class App {
 
         JPanel panelSave = new JPanel(new GridLayout(1,2,0,0));
         JLabel lastSavedLbl = sc.customLabel("Last saved: - ");
-        JLabel hasChangesLbl = sc.customLabel(ss.NO_CHAGES);
+        JLabel hasChangesLbl = sc.customLabel(ss.NO_CHANGES);
 
         panelSave.add(lastSavedLbl);
         panelSave.add(hasChangesLbl);
@@ -124,74 +125,56 @@ public class App {
         window.add(panelItems);
         window.add(panelSave);
 
-        simpleBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                markChange(hasChangesLbl);
-                increaseValue(simpleValue);
-                increaseValue(totalValue);
-            }
+        simpleBtn.addActionListener(e -> {
+            markChange(hasChangesLbl);
+            increaseValue(simpleValue);
+            increaseValue(totalValue);
         });
 
-        bossBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                markChange(hasChangesLbl);
-                increaseValue(bossValue);
-                increaseValue(totalValue);
-            }
+        bossBtn.addActionListener(e -> {
+            markChange(hasChangesLbl);
+            increaseValue(bossValue);
+            increaseValue(totalValue);
         });
 
-        difficultBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                markChange(hasChangesLbl);
-                increaseValue(difficultValue);
-                increaseValue(totalValue);
-            }
+        difficultBtn.addActionListener(e -> {
+            markChange(hasChangesLbl);
+            increaseValue(difficultValue);
+            increaseValue(totalValue);
         });
 
-        notBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                markChange(hasChangesLbl);
-                increaseValue(notValue);
-                increaseValue(totalValue);
-            }
+        notBtn.addActionListener(e -> {
+            markChange(hasChangesLbl);
+            increaseValue(notValue);
+            increaseValue(totalValue);
         });
 
-        saveBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        saveBtn.addActionListener(e -> {
 
-                Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
+            Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
 
-                String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-                String newContent = "\n"
-                        + currentDay + ";"
-                        + simpleValue.getText() + ";" + bossValue.getText() + ";" + difficultValue.getText() + ";" + notValue.getText();
+            String newContent = "\n"
+                    + currentDay + ";"
+                    + simpleValue.getText() + ";" + bossValue.getText() + ";" + difficultValue.getText() + ";" + notValue.getText();
 
-                try{
+            try{
 
-                    Files.write(filePath,newContent.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.APPEND);
-                    JOptionPane.showMessageDialog(null,"Data recorded to file " + filePath.getFileName(),"Information",JOptionPane.INFORMATION_MESSAGE);
-                    hasChangesLbl.setText(ss.NO_CHAGES);
-                    hasChangesLbl.setForeground(Color.BLACK);
-                    lastSavedLbl.setText("Last saved: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-                }catch (IOException ex){
-                    ex.printStackTrace();
-                }
-
+                Files.write(filePath,newContent.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.APPEND);
+                JOptionPane.showMessageDialog(null,"Data recorded to file " + filePath.getFileName(),"Information",JOptionPane.INFORMATION_MESSAGE);
+                hasChangesLbl.setText(ss.NO_CHANGES);
+                hasChangesLbl.setForeground(Color.BLACK);
+                lastSavedLbl.setText("Last saved: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+            }catch (IOException ex){
+                ex.printStackTrace();
             }
+
         });
 
-        reportBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CounterReport cr = new CounterReport();
-                cr.showWindow();
-            }
+        reportBtn.addActionListener(e -> {
+            CounterReport cr = new CounterReport();
+            cr.showWindow();
         });
 
         window.setVisible(true);
