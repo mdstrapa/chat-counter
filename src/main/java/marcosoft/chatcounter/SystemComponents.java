@@ -1,7 +1,8 @@
 package marcosoft.chatcounter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class SystemComponents {
 
