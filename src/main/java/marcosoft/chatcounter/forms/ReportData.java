@@ -1,5 +1,7 @@
-package marcosoft.chatcounter;
+package marcosoft.chatcounter.forms;
 
+import marcosoft.chatcounter.config.SystemComponents;
+import marcosoft.chatcounter.config.SystemStrings;
 import marcosoft.chatcounter.model.DayChatCounterTableModel;
 import marcosoft.chatcounter.repository.DayChatCounterRepository;
 

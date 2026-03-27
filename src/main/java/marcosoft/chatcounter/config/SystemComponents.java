@@ -1,4 +1,4 @@
-package marcosoft.chatcounter;
+package marcosoft.chatcounter.config;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;

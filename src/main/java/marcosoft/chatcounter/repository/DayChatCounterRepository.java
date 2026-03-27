@@ -1,6 +1,6 @@
 package marcosoft.chatcounter.repository;
 
-import marcosoft.chatcounter.SystemStrings;
+import marcosoft.chatcounter.config.SystemStrings;
 import marcosoft.chatcounter.model.DayChatCounter;
 
 import java.io.IOException;
