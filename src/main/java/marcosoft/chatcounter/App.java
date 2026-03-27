@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
+import java.util.List;
 
 
 public class App {
@@ -39,9 +40,9 @@ public class App {
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        JPanel panelTotal = new JPanel(new GridLayout(1,10,0,0));
+        JPanel panelTotal = new JPanel(new GridLayout(1, 10, 0, 0));
 
-        Font bigFont = new Font("Arial", Font.BOLD,18);
+        Font bigFont = new Font("Arial", Font.BOLD, 18);
 
         JLabel simpleLbl = new JLabel("Simple Question:");
         simpleLbl.setBackground(Color.decode(ss.COLOR1));
@@ -83,34 +84,34 @@ public class App {
         JButton saveBtn = new JButton("Save");
         JButton reportBtn = new JButton("Report");
 
-        JPanel panelSave = new JPanel(new GridLayout(1,2,0,0));
+        JPanel panelSave = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel lastSavedLbl = sc.customLabel("Last saved: - ");
         JLabel hasChangesLbl = sc.customLabel(ss.NO_CHANGES);
 
         panelSave.add(lastSavedLbl);
         panelSave.add(hasChangesLbl);
 
-        panelItems.add(simpleLbl,gbc);
-        panelItems.add(simpleValue,gbc);
-        panelItems.add(simpleBtn,gbc);
+        panelItems.add(simpleLbl, gbc);
+        panelItems.add(simpleValue, gbc);
+        panelItems.add(simpleBtn, gbc);
 
-        panelItems.add(bossLbl,gbc);
-        panelItems.add(bossValue,gbc);
-        panelItems.add(bossBtn,gbc);
+        panelItems.add(bossLbl, gbc);
+        panelItems.add(bossValue, gbc);
+        panelItems.add(bossBtn, gbc);
 
-        panelItems.add(difficultLbl,gbc);
-        panelItems.add(difficultValue,gbc);
-        panelItems.add(difficultBtn,gbc);
+        panelItems.add(difficultLbl, gbc);
+        panelItems.add(difficultValue, gbc);
+        panelItems.add(difficultBtn, gbc);
 
-        panelItems.add(notLbl,gbc);
-        panelItems.add(notValue,gbc);
-        panelItems.add(notBtn,gbc);
+        panelItems.add(notLbl, gbc);
+        panelItems.add(notValue, gbc);
+        panelItems.add(notBtn, gbc);
         panelItems.setBackground(Color.WHITE);
         panelItems.setOpaque(true);
 
         panelTotal.add(currentDate);
 
-        for(int c = 0;c<2;c++){
+        for (int c = 0; c < 2; c++) {
             panelTotal.add(new JLabel());
         }
 
@@ -124,6 +125,10 @@ public class App {
         window.add(panelTotal);
         window.add(panelItems);
         window.add(panelSave);
+
+        // checking with we have an open day in the database
+        String currentDayData = getCurrentDayData();
+        if(checkIfCurrentDayIsOpen(currentDayData)) setCurrentDayData(currentDayData,simpleValue,bossValue,difficultValue,notValue,totalValue);
 
         simpleBtn.addActionListener(e -> {
             markChange(hasChangesLbl);
@@ -159,14 +164,14 @@ public class App {
                     + currentDay + ";"
                     + simpleValue.getText() + ";" + bossValue.getText() + ";" + difficultValue.getText() + ";" + notValue.getText();
 
-            try{
+            try {
 
-                Files.write(filePath,newContent.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.APPEND);
-                JOptionPane.showMessageDialog(null,"Data recorded to file " + filePath.getFileName(),"Information",JOptionPane.INFORMATION_MESSAGE);
+                Files.write(filePath, newContent.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                JOptionPane.showMessageDialog(null, "Data recorded to file " + filePath.getFileName(), "Information", JOptionPane.INFORMATION_MESSAGE);
                 hasChangesLbl.setText(ss.NO_CHANGES);
                 hasChangesLbl.setForeground(Color.BLACK);
                 lastSavedLbl.setText("Last saved: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-            }catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
 
@@ -180,15 +185,39 @@ public class App {
         window.setVisible(true);
     }
 
-    private static void increaseValue(JLabel labelValue){
+    private static void increaseValue(JLabel labelValue) {
         int value = Integer.parseInt(labelValue.getText());
         value++;
         labelValue.setText(Integer.toString(value));
     }
 
-    private static void markChange(JLabel hasChangesLbl){
+    private static void markChange(JLabel hasChangesLbl) {
         hasChangesLbl.setText(ss.UNSAVED_CHANGES);
         hasChangesLbl.setForeground(Color.RED);
     }
 
+    private static boolean checkIfCurrentDayIsOpen(String currentDayData) {
+            String lastDay = currentDayData.split(";")[0];
+            String currentDay = LocalDate.now().toString();
+            return currentDay.equals(lastDay);
+    }
+
+    private static String getCurrentDayData(){
+        Path filePath = Path.of(ss.DATABASE_TEXT_FILE);
+        try {
+            List<String> lines = Files.readAllLines(filePath);
+            return lines.get(lines.size() - 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void setCurrentDayData(String currentDayData, JLabel simpleQuestionLbl, JLabel bossLbl, JLabel difficultQuestionLbl, JLabel noActionLbl, JLabel totalLbl ){
+        String[] currentDayDataArray = currentDayData.split(";");
+        simpleQuestionLbl.setText(currentDayDataArray[1]);
+        bossLbl.setText(currentDayDataArray[2]);
+        difficultQuestionLbl.setText(currentDayDataArray[3]);
+        noActionLbl.setText(currentDayDataArray[4]);
+        totalLbl.setText(String.valueOf(Integer.parseInt(currentDayDataArray[1]) + Integer.parseInt(currentDayDataArray[2]) + Integer.parseInt(currentDayDataArray[3]) + Integer.parseInt(currentDayDataArray[4])));
+    }
 }
