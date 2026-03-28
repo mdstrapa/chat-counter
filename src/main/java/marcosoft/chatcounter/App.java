@@ -1,5 +1,9 @@
 package marcosoft.chatcounter;
 
+import marcosoft.chatcounter.forms.CounterReport;
+import marcosoft.chatcounter.config.SystemComponents;
+import marcosoft.chatcounter.config.SystemStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -10,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.io.IOException;
 import java.util.List;
-
 
 public class App {
 
